@@ -10,6 +10,7 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Move Property")]
     [SerializeField] private float _speed;
+    [SerializeField] private float _gravityScale;
 
     [Header("Jump Property")]
     [SerializeField] private float _jumpPower;
@@ -31,12 +32,12 @@ public class PlayerMovement : MonoBehaviour
         _animator = GetComponent<Animator>();
 
         _jumpCurrentCount = _jumpMaxCount;
+        _rigid.gravityScale = _gravityScale;
     }
 
     private void Update()
     {
         Move();
-        Jump();
 
         SpriteDirection();
 
@@ -58,6 +59,36 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             _playerAnimationState = AnimationState.RUN;
+        }
+
+        if (_isLadder)
+        {
+            float v = Input.GetAxisRaw("Vertical");
+
+            _rigid.velocity = new Vector2(_rigid.velocity.x, v * _speed);
+        }
+        else
+        {
+            Jump();
+        }
+    }
+
+    bool _isLadder;
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Ladder"))
+        {
+            _rigid.gravityScale = 0;
+            _isLadder = true;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.CompareTag("Ladder"))
+        {
+            _rigid.gravityScale = _gravityScale;
+            _isLadder = false;
         }
     }
 
