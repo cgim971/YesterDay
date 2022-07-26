@@ -12,6 +12,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float _speed;
     [SerializeField] private float _gravityScale;
 
+    [SerializeField] private bool _isLadder;
+
     [Header("Jump Property")]
     [SerializeField] private float _jumpPower;
     [SerializeField] private Transform _jumpPos;
@@ -21,6 +23,11 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private int _jumpMaxCount;
     [SerializeField] private int _jumpCurrentCount;
     [SerializeField] private bool _isGround;
+
+    [Header("Attack Property")]
+    [SerializeField] private float _attack;
+    [SerializeField] private WeaponState _weaponState;
+
 
     [Header("Animation Property")]
     [SerializeField] private AnimationState _playerAnimationState;
@@ -72,8 +79,6 @@ public class PlayerMovement : MonoBehaviour
             Jump();
         }
     }
-
-    bool _isLadder;
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Ladder"))
@@ -117,6 +122,8 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+
+
     private void SpriteDirection()
     {
         Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -143,6 +150,9 @@ public class PlayerMovement : MonoBehaviour
             case AnimationState.HIT:
                 AnimationHit();
                 break;
+            case AnimationState.ATTACK:
+                AnimationAttack();
+                break;
         }
     }
 
@@ -157,5 +167,17 @@ public class PlayerMovement : MonoBehaviour
     private void AnimationHit()
     {
         _animator.SetTrigger("hit");
+    }
+    private void AnimationAttack()
+    {
+        switch (_weaponState)
+        {
+            case WeaponState.NONE:
+                break;
+            case WeaponState.ANIME_SWORD:
+                _animator.SetFloat("WeaponType", 0.5f);
+                _animator.SetTrigger("attack");
+                break;
+        }
     }
 }
