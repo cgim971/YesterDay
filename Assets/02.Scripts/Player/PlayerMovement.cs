@@ -12,17 +12,25 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float _speed;
     [SerializeField] private float _gravityScale;
 
-    [SerializeField] private bool _isLadder;
+    [SerializeField] private Transform _pos;
 
     [Header("Jump Property")]
     [SerializeField] private float _jumpPower;
-    [SerializeField] private Transform _jumpPos;
     [SerializeField] private float _checkRadius;
     [SerializeField] private LayerMask _layerMask;
 
     [SerializeField] private int _jumpMaxCount;
     [SerializeField] private int _jumpCurrentCount;
     [SerializeField] private bool _isGround;
+
+    [Header("Interaction Property")]
+    [SerializeField] private bool _isLadder;
+    [SerializeField] private float _ladderRadius;
+    [SerializeField] private LayerMask _ladderLayerMask;
+
+    [SerializeField] private float _teleportRadius;
+    [SerializeField] private LayerMask _teleportLayerMask;
+
 
     [Header("Attack Property")]
     [SerializeField] private float _attack;
@@ -44,7 +52,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        Move();
+        Moving();
+        Interaction();
 
         SpriteDirection();
 
@@ -54,7 +63,7 @@ public class PlayerMovement : MonoBehaviour
     /// <summary>
     /// PlayerMove
     /// </summary>
-    private void Move()
+    private void Moving()
     {
         float h = Input.GetAxisRaw("Horizontal");
 
@@ -76,33 +85,17 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            Jump();
-        }
-    }
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.CompareTag("Ladder"))
-        {
-            _rigid.gravityScale = 0;
-            _isLadder = true;
+            Jumping();
         }
     }
 
-    private void OnTriggerExit2D(Collider2D other)
-    {
-        if (other.CompareTag("Ladder"))
-        {
-            _rigid.gravityScale = _gravityScale;
-            _isLadder = false;
-        }
-    }
 
     /// <summary>
     /// PlayerJump
     /// </summary>
-    private void Jump()
+    private void Jumping()
     {
-        _isGround = Physics2D.OverlapCircle(_jumpPos.position, _checkRadius, _layerMask);
+        _isGround = Physics2D.OverlapCircle(_pos.position, _checkRadius, _layerMask);
 
         if (_isGround == true && Input.GetKeyDown(KeyCode.Space) && _jumpCurrentCount > 0)
         {
@@ -123,6 +116,31 @@ public class PlayerMovement : MonoBehaviour
     }
 
 
+    private void Interaction()
+    {
+        if (Input.GetKeyDown(KeyCode.F)) Teleporting();
+        Laddering();
+    }
+
+    private void Laddering()
+    {
+        _isLadder = Physics2D.OverlapCircle(new Vector2(_pos.position.x, _pos.position.y + _ladderRadius), _ladderRadius, _ladderLayerMask);
+
+        if (_isLadder)
+            _rigid.gravityScale = 0;
+        else
+            _rigid.gravityScale = _gravityScale;
+    }
+
+    private void Teleporting()
+    {
+        Collider2D teleportCol = Physics2D.OverlapCircle(transform.position, _teleportRadius, _teleportLayerMask);
+
+        if (teleportCol != null)
+        {
+            transform.position = teleportCol.GetComponent<Teleport>().NextPosition;
+        }
+    }
 
     private void SpriteDirection()
     {

@@ -310,11 +310,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rigid: {fileID: 673521109}
-  _speed: 5
+  _speed: 4
   _gravityScale: 4
-  _isLadder: 0
+  _pos: {fileID: 838905940}
   _jumpPower: 15
-  _jumpPos: {fileID: 838905940}
   _checkRadius: 0.1
   _layerMask:
     serializedVersion: 2
@@ -322,6 +321,15 @@ MonoBehaviour:
   _jumpMaxCount: 2
   _jumpCurrentCount: 0
   _isGround: 0
+  _isLadder: 0
+  _ladderRadius: 0.3
+  _ladderLayerMask:
+    serializedVersion: 2
+    m_Bits: 128
+  _teleportRadius: 1
+  _teleportLayerMask:
+    serializedVersion: 2
+    m_Bits: 512
   _attack: 0
   _weaponState: 1
   _playerAnimationState: 0
@@ -393,7 +401,7 @@ GameObject:
   m_Component:
   - component: {fileID: 838905940}
   m_Layer: 0
-  m_Name: JumpPos
+  m_Name: Pos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1038,7 +1046,7 @@ GameObject:
   - component: {fileID: 1860705070}
   - component: {fileID: 1860705072}
   - component: {fileID: 1860705071}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Ground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
