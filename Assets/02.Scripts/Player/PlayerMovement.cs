@@ -57,6 +57,8 @@ public class PlayerMovement : MonoBehaviour
 
         SpriteDirection();
 
+        if (Input.GetMouseButtonDown(0)) _playerAnimationState = AnimationState.ATTACK;
+
         Animation();
     }
 
@@ -115,7 +117,6 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-
     private void Interaction()
     {
         if (Input.GetKeyDown(KeyCode.F)) Teleporting();
@@ -142,6 +143,13 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    bool _isAttacking;
+    public void AttackEnd()
+    {
+        _isAttacking = false;
+    }
+
+
     private void SpriteDirection()
     {
         Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -157,6 +165,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void Animation()
     {
+        if (_isAttacking) return;
+
         switch (_playerAnimationState)
         {
             case AnimationState.IDLE:
@@ -188,14 +198,7 @@ public class PlayerMovement : MonoBehaviour
     }
     private void AnimationAttack()
     {
-        switch (_weaponState)
-        {
-            case WeaponState.NONE:
-                break;
-            case WeaponState.ANIME_SWORD:
-                _animator.SetFloat("WeaponType", 0.5f);
-                _animator.SetTrigger("attack");
-                break;
-        }
+        _isAttacking = true;
+        _animator.SetTrigger("attack");
     }
 }
