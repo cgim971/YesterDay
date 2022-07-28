@@ -4,36 +4,55 @@ using UnityEngine;
 
 public class EnemyMove : MonoBehaviour
 {
-    Rigidbody2D rigid;
-    public int nextMove;
+    public float speed;
+    Rigidbody2D rb;
+    RaycastHit2D rayHit;
+    Ray2D ray;
 
-    private void Awake()
-    {
-        rigid = GetComponent<Rigidbody2D>();
 
-        Invoke("Think", 5);
-    }
-    private void FixedUpdate()
+    void Start()
     {
-        //Move
-        rigid.velocity = new Vector2(nextMove, rigid.velocity.y);
+        rb = GetComponent<Rigidbody2D>();
+        ray = new Ray2D();
         
-        //Platform check
-        Vector2 frontVec = new Vector2(rigid.position.x + nextMove, rigid.position.y);
-        Debug.DrawRay(frontVec, transform.TransformDirection(Vector3.down * 10), new Color(0, 1, 0));
-        RaycastHit2D rayHit = Physics2D.Raycast(frontVec, Vector3.down, 1, LayerMask.GetMask("Platform"));
-        if (rayHit.collider != null)
+    }
+
+
+    void Update()
+    {
+        rb.velocity = new Vector2(speed, rb.velocity.y);
+        FlipSprite();
+    }
+
+
+    void FixedUpdate()
+    {
+        float distance = 4.42f;
+        if (speed > 0)
         {
-            nextMove *= -1;
-            CancelInvoke();
-            Invoke("Think", 5);
+            ray.direction = new Vector3(1, -1, 0);
+            rayHit = Physics2D.Raycast(rb.position, ray.direction, distance, ~3);
+        }
+        else
+        {
+            ray.direction = new Vector3(-1, -1, 0);
+            rayHit = Physics2D.Raycast(rb.position, ray.direction, distance, ~3);
+
+        }
+        if (!rayHit)
+        {
+            speed = -speed;
         }
     }
-    void Think()
+    void FlipSprite()
     {
-        nextMove = Random.Range(-1, 2);
-        float nextThink = Random.Range(2f, 5f);
-        Invoke("Think", nextThink);
+        bool playerHasSpeed = Mathf.Abs(rb.velocity.x) > Mathf.Epsilon;
+        if (playerHasSpeed)
+        {
+            transform.localScale = new Vector2(Mathf.Sign(rb.velocity.x), 1f);
+        }
+
+
     }
 }
 
