@@ -36,6 +36,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private bool _isAttacking;
 
 
+
     [Header("Animation Property")]
     [SerializeField] private AnimationState _playerAnimationState;
     [SerializeField] private Animator _animator;
@@ -56,15 +57,12 @@ public class PlayerMovement : MonoBehaviour
 
         SpriteDirection();
 
-        Attacking();
         UseSkill();
+        Attacking();
 
         Animation();
     }
 
-    /// <summary>
-    /// PlayerMove
-    /// </summary>
     private void Moving()
     {
         float h = Input.GetAxisRaw("Horizontal");
@@ -92,9 +90,6 @@ public class PlayerMovement : MonoBehaviour
     }
 
 
-    /// <summary>
-    /// PlayerJump
-    /// </summary>
     private void Jumping()
     {
         _isGround = Physics2D.OverlapCircle(_pos.position, _checkRadius, _layerMask);
@@ -149,8 +144,6 @@ public class PlayerMovement : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            _isAttacking = true;
-
             _playerAnimationState = AnimationState.ATTACK;
         }
     }
@@ -167,15 +160,27 @@ public class PlayerMovement : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Q))
         {
-
+            StartCoroutine(UseQSkill());
         }
         else if (Input.GetKeyDown(KeyCode.E))
         {
-
+            StartCoroutine(UseESkill());
         }
     }
 
+    private IEnumerator UseQSkill()
+    {
+        Debug.Log("Q");
 
+        yield break;
+    }
+
+    private IEnumerator UseESkill()
+    {
+        Debug.Log("E");
+
+        yield break;
+    }
 
     private void SpriteDirection()
     {
@@ -188,7 +193,6 @@ public class PlayerMovement : MonoBehaviour
             transform.localScale = localScale;
         }
     }
-
 
     private void Animation()
     {
@@ -224,6 +228,8 @@ public class PlayerMovement : MonoBehaviour
     }
     private void AnimationAttack()
     {
+        _isAttacking = true;
+
         _animator.SetTrigger("attack");
     }
 }

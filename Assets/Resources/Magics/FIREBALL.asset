@@ -10,11 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4982378ef26b784c95e6659f5b0fe13, type: 3}
-  m_Name: MagicData
+  m_Name: FIREBALL
   m_EditorClassIdentifier: 
-  _magicState: 0
+  _magicState: 1
   _name: 
   _damage: 0
   _lv: 0
   _coolTime: 0
   _curentCoolTime: 0
+  _animationClip: {fileID: 0}
