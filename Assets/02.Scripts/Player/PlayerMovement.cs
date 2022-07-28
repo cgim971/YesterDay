@@ -33,8 +33,7 @@ public class PlayerMovement : MonoBehaviour
 
 
     [Header("Attack Property")]
-    [SerializeField] private float _attack;
-    [SerializeField] private WeaponState _weaponState;
+    [SerializeField] private bool _isAttacking;
 
 
     [Header("Animation Property")]
@@ -57,7 +56,8 @@ public class PlayerMovement : MonoBehaviour
 
         SpriteDirection();
 
-        if (Input.GetMouseButtonDown(0)) _playerAnimationState = AnimationState.ATTACK;
+        Attacking();
+        UseSkill();
 
         Animation();
     }
@@ -117,6 +117,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+
     private void Interaction()
     {
         if (Input.GetKeyDown(KeyCode.F)) Teleporting();
@@ -143,11 +144,37 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    bool _isAttacking;
+
+    private void Attacking()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            _isAttacking = true;
+
+            _playerAnimationState = AnimationState.ATTACK;
+        }
+    }
+
     public void AttackEnd()
     {
         _isAttacking = false;
     }
+
+
+    private void UseSkill()
+    {
+        if (_isAttacking) return;
+
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+
+        }
+        else if (Input.GetKeyDown(KeyCode.E))
+        {
+
+        }
+    }
+
 
 
     private void SpriteDirection()
@@ -183,7 +210,6 @@ public class PlayerMovement : MonoBehaviour
                 break;
         }
     }
-
     private void AnimationIdle()
     {
         _animator.SetBool("isRun", false);
@@ -198,7 +224,6 @@ public class PlayerMovement : MonoBehaviour
     }
     private void AnimationAttack()
     {
-        _isAttacking = true;
         _animator.SetTrigger("attack");
     }
 }

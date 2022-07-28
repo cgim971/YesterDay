@@ -12,9 +12,14 @@ public enum WeaponState
 {
     NONE,
     ANIME_SWORD,
-    //KNIFE,
-    //AXE,
-    //KATANA,
-    //RED_MAGIC_STAFF,
-    //GREEN_MAGIC_STAFF
+    RED_MAGIC_STAFF,
+    GREEN_MAGIC_STAFF
+}
+
+public enum MagicState
+{
+    NONE,
+    FIREBALL,
+    ICEARROW,
+
 }
