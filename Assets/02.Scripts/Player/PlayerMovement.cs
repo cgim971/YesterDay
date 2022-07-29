@@ -55,12 +55,9 @@ public class PlayerMovement : MonoBehaviour
         Moving();
         Interaction();
 
-        SpriteDirection();
-
-        UseSkill();
         Attacking();
 
-        Animation();
+        //Animation();
     }
 
     private void Moving()
@@ -75,6 +72,7 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             _playerAnimationState = AnimationState.RUN;
+            transform.localScale = new Vector2(h, 1);
         }
 
         if (_isLadder)
@@ -154,45 +152,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
 
-    private void UseSkill()
-    {
-        if (_isAttacking) return;
 
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            StartCoroutine(UseQSkill());
-        }
-        else if (Input.GetKeyDown(KeyCode.E))
-        {
-            StartCoroutine(UseESkill());
-        }
-    }
-
-    private IEnumerator UseQSkill()
-    {
-        Debug.Log("Q");
-
-        yield break;
-    }
-
-    private IEnumerator UseESkill()
-    {
-        Debug.Log("E");
-
-        yield break;
-    }
-
-    private void SpriteDirection()
-    {
-        Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Vector2 playerPosition = transform.position;
-
-        if (mousePosition.x != playerPosition.x)
-        {
-            Vector2 localScale = new Vector2(mousePosition.x > playerPosition.x ? 1 : -1, 1);
-            transform.localScale = localScale;
-        }
-    }
 
     private void Animation()
     {
