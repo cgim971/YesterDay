@@ -7,6 +7,7 @@ TagManager:
   - Ladder
   - Teleport
   - Platform
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -19,8 +20,8 @@ TagManager:
   - Map
   - Teleport
   - Platform
-  - 
-  - 
+  - Enemy
+  - Player
   - 
   - 
   - 
