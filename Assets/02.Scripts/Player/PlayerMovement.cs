@@ -33,8 +33,8 @@ public class PlayerMovement : MonoBehaviour
 
 
     [Header("Attack Property")]
-    [SerializeField] private float _attack;
-    [SerializeField] private WeaponState _weaponState;
+    [SerializeField] private bool _isAttacking;
+
 
 
     [Header("Animation Property")]
@@ -55,16 +55,11 @@ public class PlayerMovement : MonoBehaviour
         Moving();
         Interaction();
 
-        SpriteDirection();
+        Attacking();
 
-        if (Input.GetMouseButtonDown(0)) _playerAnimationState = AnimationState.ATTACK;
-
-        Animation();
+        //Animation();
     }
 
-    /// <summary>
-    /// PlayerMove
-    /// </summary>
     private void Moving()
     {
         float h = Input.GetAxisRaw("Horizontal");
@@ -77,6 +72,7 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             _playerAnimationState = AnimationState.RUN;
+            transform.localScale = new Vector2(h, 1);
         }
 
         if (_isLadder)
@@ -92,9 +88,6 @@ public class PlayerMovement : MonoBehaviour
     }
 
 
-    /// <summary>
-    /// PlayerJump
-    /// </summary>
     private void Jumping()
     {
         _isGround = Physics2D.OverlapCircle(_pos.position, _checkRadius, _layerMask);
@@ -116,6 +109,7 @@ public class PlayerMovement : MonoBehaviour
             _jumpCurrentCount = _jumpMaxCount;
         }
     }
+
 
     private void Interaction()
     {
@@ -143,24 +137,21 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    bool _isAttacking;
+
+    private void Attacking()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            _playerAnimationState = AnimationState.ATTACK;
+        }
+    }
+
     public void AttackEnd()
     {
         _isAttacking = false;
     }
 
 
-    private void SpriteDirection()
-    {
-        Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Vector2 playerPosition = transform.position;
-
-        if (mousePosition.x != playerPosition.x)
-        {
-            Vector2 localScale = new Vector2(mousePosition.x > playerPosition.x ? 1 : -1, 1);
-            transform.localScale = localScale;
-        }
-    }
 
 
     private void Animation()
@@ -183,7 +174,6 @@ public class PlayerMovement : MonoBehaviour
                 break;
         }
     }
-
     private void AnimationIdle()
     {
         _animator.SetBool("isRun", false);
@@ -199,6 +189,7 @@ public class PlayerMovement : MonoBehaviour
     private void AnimationAttack()
     {
         _isAttacking = true;
+
         _animator.SetTrigger("attack");
     }
 }
