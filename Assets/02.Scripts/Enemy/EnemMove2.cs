@@ -12,22 +12,39 @@ public class EnemMove2 : MonoBehaviour
     Ray2D ray;
     public int moveDir;    // Moving direction, Random
     BoxCollider2D boxcoll;
-
+    Animator anim;
+    public Transform other;
+    
+    
     
     void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
         ray = new Ray2D();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        anim = GetComponent<Animator>();
     }
+    
     void Start()
     {
         
         StartCoroutine("monsterAI");
     }
+
+
     void Update()
     {
-        if (rigid.velocity.x > 0.1f)
+        if (Vector3.Distance(other.position, transform.position) <= 2.3f)
+        {
+            anim.SetBool("isAttack", true);
+        }
+        else if (Vector3.Distance(other.position, transform.position) >= 2.3f)
+        {
+            anim.SetBool("isAttack", false);
+        }
+
+
+            if (rigid.velocity.x > 0.1f)
         {
             spriteRenderer.flipX = true;
         }
@@ -36,6 +53,7 @@ public class EnemMove2 : MonoBehaviour
             spriteRenderer.flipX = false;
         }
     }
+    
 
     void FixedUpdate()
     {
@@ -59,16 +77,24 @@ public class EnemMove2 : MonoBehaviour
         {
             moveDir = -moveDir;
         }
-        
+        if (moveDir != 0)
+        {
+            anim.SetBool("Walk", true);
+        }
+        else
+        {
+            anim.SetBool("Walk", false);
+        }
+
     }
-    
-    
+
+
     IEnumerator monsterAI()
     {
         
         moveDir = Random.Range(-1, 2);   // -1<= ranNum <2
         int rand = Random.Range(2, 5);
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(rand);
         StartCoroutine("monsterAI");
     }
 
@@ -81,6 +107,38 @@ public class EnemMove2 : MonoBehaviour
     {
         StopCoroutine("monsterAI");
     }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        // find player
+        if (collision.gameObject.tag == "Player")
+        {
+
+            stopMove();
+            Vector3 playerPos = collision.transform.position;
+            if (playerPos.x > transform.position.x)
+            {
+                moveDir = 3;     // speed up
+                
+
+
+
+            }
+            else if (playerPos.x < transform.position.x)
+            {
+                moveDir = -3;
+                
+            }
+        }
+    }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Player")
+            startMove();
+    }
+
+    
+
+
 
 }
 
