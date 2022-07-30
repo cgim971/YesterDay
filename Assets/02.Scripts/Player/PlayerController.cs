@@ -6,9 +6,9 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
 
-    [SerializeField] private Rigidbody2D _rigid;
-    [SerializeField] private Animator _animator;
-    [SerializeField] private Ghost _ghost;
+    private Rigidbody2D _rigid;
+    private Animator _animator;
+    private Ghost _ghost;
 
     [Header("Move Property")]
     private KeyCode _leftKey = KeyCode.LeftArrow;
@@ -89,14 +89,41 @@ public class PlayerController : MonoBehaviour
     }
 
 
-
-    public void Attacking()
+    private void Attacking()
     {
         bool isAttackKey = Input.GetKeyDown(_attackKey);
 
+        if (isAttackKey == true)
+        {
+
+            bool isAttack_1 = _animator.GetCurrentAnimatorStateInfo(0).IsName("Player_Attack_1");
+            bool isAttack_2 = _animator.GetCurrentAnimatorStateInfo(0).IsName("Player_Attack_2");
+            bool isAttack_3 = _animator.GetCurrentAnimatorStateInfo(0).IsName("Player_Attack_3");
+
+            if (isAttack_1 == false && isAttack_2 == false && isAttack_3 == false)
+            {
+                _animator.SetTrigger("attack");
+                _animator.SetBool("attack_2", false);
+                _animator.SetBool("attack_3", false);
+            }
+            else if (isAttack_1 == true)
+            {
+                _animator.SetBool("attack_2", true);
+            }
+
+            if (isAttack_2 == false)
+            {
+                _animator.SetBool("attack_3", false);
+            }
+            else if (isAttack_2 == true)
+            {
+                _animator.SetBool("attack_3", true);
+            }
+        }
     }
 
-    public void Jumping()
+
+    private void Jumping()
     {
         if (_isDashing == true)
         {
