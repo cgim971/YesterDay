@@ -14,9 +14,9 @@ public class EnemMove2 : MonoBehaviour
     BoxCollider2D boxcoll;
     Animator anim;
     public Transform other;
-    
-    
-    
+
+
+
     void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
@@ -24,10 +24,10 @@ public class EnemMove2 : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
     }
-    
+
     void Start()
     {
-        
+
         StartCoroutine("monsterAI");
     }
 
@@ -44,7 +44,7 @@ public class EnemMove2 : MonoBehaviour
         }
 
 
-            if (rigid.velocity.x > 0.1f)
+        if (rigid.velocity.x > 0.1f)
         {
             spriteRenderer.flipX = true;
         }
@@ -53,7 +53,7 @@ public class EnemMove2 : MonoBehaviour
             spriteRenderer.flipX = false;
         }
     }
-    
+
 
     void FixedUpdate()
     {
@@ -61,14 +61,14 @@ public class EnemMove2 : MonoBehaviour
         float distance = 4.42f;
         if (moveDir > 0)
         {
-            
+
             ray.direction = new Vector3(1, -1, 0);
-            
+
             rayHit = Physics2D.Raycast(rigid.position, ray.direction, distance, ~3);
         }
         else
         {
-            
+
             ray.direction = new Vector3(-1, -1, 0);
             rayHit = Physics2D.Raycast(rigid.position, ray.direction, distance, ~3);
 
@@ -91,7 +91,7 @@ public class EnemMove2 : MonoBehaviour
 
     IEnumerator monsterAI()
     {
-        
+
         moveDir = Random.Range(-1, 2);   // -1<= ranNum <2
         int rand = Random.Range(2, 5);
         yield return new WaitForSeconds(rand);
@@ -118,7 +118,7 @@ public class EnemMove2 : MonoBehaviour
             if (playerPos.x > transform.position.x)
             {
                 moveDir = 3;     // speed up
-                
+
 
 
 
@@ -126,7 +126,7 @@ public class EnemMove2 : MonoBehaviour
             else if (playerPos.x < transform.position.x)
             {
                 moveDir = -3;
-                
+
             }
         }
     }
@@ -135,9 +135,6 @@ public class EnemMove2 : MonoBehaviour
         if (collision.gameObject.tag == "Player")
             startMove();
     }
-
-    
-
 
 
 }

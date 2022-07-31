@@ -10,6 +10,11 @@ public class PlayerController : MonoBehaviour
     private Animator _animator;
     private Ghost _ghost;
 
+    [Header("Condition Property")]
+    [SerializeField] private float hp = 20f;
+
+
+
     [Header("Move Property")]
     private KeyCode _leftKey = KeyCode.LeftArrow;
     private KeyCode _rightKey = KeyCode.RightArrow;
@@ -170,6 +175,20 @@ public class PlayerController : MonoBehaviour
         _ghost.MakeGhost = false;
         yield return new WaitForSeconds(_dashingCooldown);
         _canDash = true;
+    }
+
+    public void TakeDamage(float damage)
+    {
+        hp -= damage;
+
+        _animator.SetTrigger("hit");
+
+        if(hp <= 0)
+        {
+
+            Debug.Log("Death");
+
+        }
     }
 }
 

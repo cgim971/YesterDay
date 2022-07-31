@@ -7,7 +7,7 @@ public class PlayerAttack : MonoBehaviour
 
     [SerializeField] private LayerMask _enemyLayerMask;
     [SerializeField] private Animator _animator;
-    [SerializeField] private float damage;
+    [SerializeField] private float _damage = 3;
     private Transform _attackPos;
     private Vector2 _attackSize = Vector2.zero;
 
@@ -74,7 +74,7 @@ public class PlayerAttack : MonoBehaviour
         _attackPos.localPosition = _attack3Pos;
         _attackSize = _attack3Size;
 
-        Attacking();    
+        Attacking();
     }
 
     void Attacking()
@@ -83,14 +83,7 @@ public class PlayerAttack : MonoBehaviour
 
         foreach (Collider2D enemy in enemies)
         {
-            enemy.GetComponent<Enemy>().TakeDamage(damage);
+            enemy.GetComponent<Enemy>().TakeDamage(_damage);
         }
-
-    }
-
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(_attackPos.transform.position, _attackSize);
     }
 }
