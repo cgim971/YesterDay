@@ -13,14 +13,14 @@ public class PlayerController : MonoBehaviour
     [Header("Move Property")]
     private KeyCode _leftKey = KeyCode.LeftArrow;
     private KeyCode _rightKey = KeyCode.RightArrow;
-    [SerializeField] private float _speed;
+    [SerializeField] private float _speed =5;
 
     [Header("Jump Property")]
     private KeyCode _jumpKey = KeyCode.C;
-    [SerializeField] private float _jumpPower;
+    [SerializeField] private float _jumpPower = 10;
     private float _checkRadius = 0.05f;
     [SerializeField] private LayerMask _layerMask;
-    [SerializeField] private Transform _pos;
+    private Transform _pos;
     private int _jumpMaxCount = 2;
     private int _jumpCurrentCount;
     private bool _isGround;
@@ -35,6 +35,13 @@ public class PlayerController : MonoBehaviour
 
     [Header("Attack Property")]
     private KeyCode _attackKey = KeyCode.X;
+    private PlayerAttack _playerAttack;
+    private bool _isAttacking;
+    public bool IsAttacking
+    {
+        get => _isAttacking;
+        set => _isAttacking = value;
+    }
 
 
     private void Start()
@@ -42,6 +49,9 @@ public class PlayerController : MonoBehaviour
         _rigid = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
         _ghost = GetComponent<Ghost>();
+
+        _playerAttack = GetComponent<PlayerAttack>();
+        _pos = transform.Find("Pos");
     }
 
 
@@ -95,30 +105,7 @@ public class PlayerController : MonoBehaviour
 
         if (isAttackKey == true)
         {
-
-            bool isAttack_1 = _animator.GetCurrentAnimatorStateInfo(0).IsName("Player_Attack_1");
-            bool isAttack_2 = _animator.GetCurrentAnimatorStateInfo(0).IsName("Player_Attack_2");
-            bool isAttack_3 = _animator.GetCurrentAnimatorStateInfo(0).IsName("Player_Attack_3");
-
-            if (isAttack_1 == false && isAttack_2 == false && isAttack_3 == false)
-            {
-                _animator.SetTrigger("attack");
-                _animator.SetBool("attack_2", false);
-                _animator.SetBool("attack_3", false);
-            }
-            else if (isAttack_1 == true)
-            {
-                _animator.SetBool("attack_2", true);
-            }
-
-            if (isAttack_2 == false)
-            {
-                _animator.SetBool("attack_3", false);
-            }
-            else if (isAttack_2 == true)
-            {
-                _animator.SetBool("attack_3", true);
-            }
+            _playerAttack.Attack();
         }
     }
 
