@@ -14,6 +14,12 @@ public class Enemy : MonoBehaviour
     private bool _isMove = false;
     [SerializeField] private float _speed;
     [SerializeField] private int _moveDir;
+    public int MoveDir
+    {
+        get => _moveDir;
+        set => _moveDir *= value;
+    }
+
 
     [Header("Find Player Property")]
     [SerializeField] private LayerMask _playerLayerMask;
@@ -48,6 +54,7 @@ public class Enemy : MonoBehaviour
         FindPlayer();
         Chasing();
     }
+
 
     private void Chasing()
     {

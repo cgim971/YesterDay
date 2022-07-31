@@ -22,7 +22,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Jump Property")]
     private KeyCode _jumpKey = KeyCode.C;
-    [SerializeField] private float _jumpPower = 10;
+    [SerializeField] private float _jumpPower = 12;
     private float _checkRadius = 0.05f;
     [SerializeField] private LayerMask _layerMask;
     private Transform _pos;
