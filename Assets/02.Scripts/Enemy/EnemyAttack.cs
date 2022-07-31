@@ -33,6 +33,9 @@ public class EnemyAttack : MonoBehaviour
 
     public void Attack_1()
     {
+        bool isAttack = _animator.GetCurrentAnimatorStateInfo(0).IsName("Enemy_Goblin_Attack_1");
+        Debug.Log(isAttack);
+
         _attackPos.localPosition = _attack1Pos;
         _attackSize = _attack1Size;
 
@@ -42,8 +45,6 @@ public class EnemyAttack : MonoBehaviour
     void Attacking()
     {
         Collider2D playerCol = Physics2D.OverlapBox(_attackPos.transform.position, _attackSize, 0, _playerLayerMask);
-
-        Debug.Log(playerCol);
 
         if (playerCol != null)
         {

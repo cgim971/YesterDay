@@ -51,6 +51,11 @@ public class Enemy : MonoBehaviour
 
     private void Update()
     {
+        if (_isDeath == true)
+        {
+            return;
+        }
+
         FindPlayer();
         Chasing();
     }
@@ -68,7 +73,7 @@ public class Enemy : MonoBehaviour
                 if (Mathf.Abs(distance) < _attackRange)
                 {
                     // attack
-                    StartCoroutine(Attacking());
+                    StartAttack();
                 }
                 else
                 {
@@ -76,6 +81,16 @@ public class Enemy : MonoBehaviour
                 }
             }
         }
+    }
+
+    void StartAttack()
+    {
+        StartCoroutine("Attacking");
+    }
+    void StopAttack()
+    {
+        StopCoroutine("Attacking");
+        _isAttacking = false; 
     }
 
     IEnumerator Attacking()
@@ -169,6 +184,7 @@ public class Enemy : MonoBehaviour
         }
 
         hp -= damage;
+        StopAttack();
 
         _animator.SetTrigger("hit");
 
@@ -177,6 +193,7 @@ public class Enemy : MonoBehaviour
             // death
             _isDeath = true;
             _animator.SetTrigger("death");
+            StopCoroutine("MonsterAI");
         }
     }
 
