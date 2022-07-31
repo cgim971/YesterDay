@@ -2,32 +2,31 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public abstract class Enemy : MonoBehaviour
 {
     private Rigidbody2D _rigid;
-    private Animator _animator;
-    private EnemyAttack _enemyAttack;
+    protected Animator _animator;
 
-    [SerializeField] float hp = 10;
+    [SerializeField] protected float hp = 10;
 
     [Header("Move Property")]
     private bool _isMove = false;
-    [SerializeField] private float _speed;
+    [SerializeField] protected float _speed;
     [SerializeField] private int _moveDir;
     public int MoveDir
     {
         get => _moveDir;
         set => _moveDir *= value;
     }
-
+    Coroutine CoroutineMove;
 
     [Header("Find Player Property")]
-    [SerializeField] private LayerMask _playerLayerMask;
+    [SerializeField] protected LayerMask _playerLayerMask;
     private bool _isPlayer;
     private Transform _player;
 
-    private Transform _pos;
-    private Vector2 _findRange = new Vector2(8f, 2.5f);
+    [SerializeField] private Transform _pos;
+    [SerializeField] protected Vector2 _findRange;
 
     [Header("Death Property")]
     private bool _isDeath = false;
@@ -36,17 +35,18 @@ public class Enemy : MonoBehaviour
     private bool _isAttacking = false;
     [SerializeField] private float _attackRange = 2f;
     [SerializeField] private float _attackDelay;
+    Coroutine CoroutineAttack;
+
 
     private void Start()
     {
         _rigid = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
-        _enemyAttack = GetComponent<EnemyAttack>();
 
         _pos = transform.Find("Pos");
         _isMove = true;
 
-        StartCoroutine("MonsterAI");
+        CoroutineMove = StartCoroutine(MonsterAI());
     }
 
     private void Update()
@@ -85,12 +85,17 @@ public class Enemy : MonoBehaviour
 
     void StartAttack()
     {
-        StartCoroutine("Attacking");
+        CoroutineAttack = StartCoroutine(Attacking());
     }
     void StopAttack()
     {
-        StopCoroutine("Attacking");
-        _isAttacking = false; 
+
+        if (CoroutineAttack != null)
+        {
+            StopCoroutine(CoroutineAttack);
+        }
+
+        _isAttacking = false;
     }
 
     IEnumerator Attacking()
@@ -98,9 +103,18 @@ public class Enemy : MonoBehaviour
         _isAttacking = true;
         _isMove = false;
         transform.localScale = new Vector2(_moveDir, 1);
-        _enemyAttack.Attack();
+        Attack();
         yield return new WaitForSeconds(_attackDelay);
         _isAttacking = false;
+    }
+
+    protected abstract void Attack();
+
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireCube(_pos.position, _findRange);
     }
 
     void FindPlayer()
@@ -128,12 +142,16 @@ public class Enemy : MonoBehaviour
     public void StartMove()
     {
         _isMove = true;
-        StartCoroutine("MonsterAI");
+        CoroutineMove = StartCoroutine(MonsterAI());
     }
     public void StopMove()
     {
         _isMove = false;
-        StopCoroutine("MonsterAI");
+
+        if (CoroutineMove != null)
+        {
+            StopCoroutine(CoroutineMove);
+        }
     }
 
     IEnumerator MonsterAI()
@@ -143,7 +161,7 @@ public class Enemy : MonoBehaviour
         yield return new WaitForSeconds(delay);
 
         if (_isPlayer == false)
-            StartCoroutine("MonsterAI");
+            StartMove();
     }
 
     private void FixedUpdate()
@@ -192,8 +210,10 @@ public class Enemy : MonoBehaviour
         {
             // death
             _isDeath = true;
+            StopMove();
+            GetComponent<Collider2D>().enabled = true;
             _animator.SetTrigger("death");
-            StopCoroutine("MonsterAI");
+            Debug.Log($"{transform.name} A");
         }
     }
 
