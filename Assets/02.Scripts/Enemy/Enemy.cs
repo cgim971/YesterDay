@@ -10,7 +10,7 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] protected float hp = 10;
 
     [Header("Move Property")]
-    private bool _isMove = false;
+    protected bool _isMove = false;
     [SerializeField] protected float _speed;
     [SerializeField] private int _moveDir;
     public int MoveDir
@@ -29,7 +29,7 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] protected Vector2 _findRange;
 
     [Header("Death Property")]
-    private bool _isDeath = false;
+    protected bool _isDeath = false;
 
     [Header("Attack Property")]
     private bool _isAttacking = false;
@@ -83,11 +83,11 @@ public abstract class Enemy : MonoBehaviour
         }
     }
 
-    void StartAttack()
+    protected void StartAttack()
     {
         CoroutineAttack = StartCoroutine(Attacking());
     }
-    void StopAttack()
+    protected void StopAttack()
     {
 
         if (CoroutineAttack != null)
@@ -194,31 +194,13 @@ public abstract class Enemy : MonoBehaviour
         _rigid.velocity = new Vector2(_moveDir, _rigid.velocity.y);
     }
 
-    public void TakeDamage(float damage)
-    {
-        if (hp <= 0)
-        {
-            return;
-        }
+    public abstract void TakeDamage(float damage);
 
-        hp -= damage;
-        StopAttack();
-
-        _animator.SetTrigger("hit");
-
-        if (hp <= 0)
-        {
-            // death
-            _isDeath = true;
-            StopMove();
-            GetComponent<Collider2D>().enabled = true;
-            _animator.SetTrigger("death");
-            Debug.Log($"{transform.name} A");
-        }
-    }
 
     public void Death()
     {
+        Debug.Log($"{transform.name} Destroy");
+
         Destroy(this.gameObject);
     }
 }

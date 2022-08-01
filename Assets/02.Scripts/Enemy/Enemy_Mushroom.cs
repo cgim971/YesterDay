@@ -12,7 +12,7 @@ public class Enemy_Mushroom : Enemy
     [SerializeField] private Transform _attackPos;
     [SerializeField] private Vector2 _attackSize = Vector2.zero;
 
- 
+
     protected override void Attack()
     {
         bool isAttack = _animator.GetCurrentAnimatorStateInfo(0).IsName("Enemy_Mushroom_Attack_1");
@@ -37,5 +37,28 @@ public class Enemy_Mushroom : Enemy
         }
     }
 
-  
+    public override void TakeDamage(float damage)
+    {
+        if (_isDeath == true)
+        {
+            return;
+        }
+
+        hp -= damage;
+        StopAttack();
+
+        _animator.SetTrigger("hit");
+
+        if (hp <= 0)
+        {
+            // death
+            _isDeath = true;
+            StopMove();
+            GetComponent<Rigidbody2D>().gravityScale = 0;
+            GetComponent<Collider2D>().enabled = false;
+            _animator.SetTrigger("death");
+
+            Debug.Log($"{transform.name} Death");
+        }
+    }
 }

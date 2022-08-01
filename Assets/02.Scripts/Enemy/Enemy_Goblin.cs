@@ -35,4 +35,28 @@ public class Enemy_Goblin : Enemy
         }
     }
 
+    public override void TakeDamage(float damage)
+    {
+        if (_isDeath == true)
+        {
+            return;
+        }
+
+        hp -= damage;
+        StopAttack();
+
+        _animator.SetTrigger("hit");
+
+        if (hp <= 0)
+        {
+            // death
+            _isDeath = true;
+            StopMove();
+            GetComponent<Rigidbody2D>().gravityScale = 0;
+            GetComponent<Collider2D>().enabled = false;
+            _animator.SetTrigger("death");
+
+            Debug.Log($"{transform.name} Death");
+        }
+    }
 }
