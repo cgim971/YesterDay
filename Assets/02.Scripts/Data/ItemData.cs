@@ -13,14 +13,27 @@ public class ItemData : ScriptableObject
     public int _itemTier;
 
     [Header("Increase Value")]
-    public float _hp;
-    public float _atk;
-    public float _def;
-    public float _spd;
-    public float _blood;
+    public List<ItemEffect> _itemEffectList;
 
     [Header("Item Type")]
     public ItemType _itemType;
+}
+
+[System.Serializable]
+public class ItemEffect
+{
+    public ItemEffectType _itemEffectType;
+    public float value;
+}
+
+public enum ItemEffectType
+{
+    NONE,
+    HP,
+    ATK,
+    DEF,
+    SPD,
+    BLOOD
 }
 
 public enum ItemType

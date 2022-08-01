@@ -19,15 +19,9 @@ public class Item : MonoBehaviour
 
     Coroutine _coroutineItem;
 
-    public GameObject ui;
-    public Transform canvas;
-    GameObject obj;
-
     private void Start()
     {
         _itemImage = transform.Find("Frame").transform.Find("ItemImage");
-        obj = Instantiate(ui, canvas);
-        obj.SetActive(false);
     }
 
 
@@ -47,7 +41,6 @@ public class Item : MonoBehaviour
         {
             if (_coroutineItem != null)
             {
-                obj.SetActive(false);
                 StopCoroutine(_coroutineItem);
             }
         }
@@ -56,16 +49,11 @@ public class Item : MonoBehaviour
     IEnumerator ItemInfo()
     {
         Debug.Log("F = 구매");
-        
-        obj.GetComponent<RectTransform>().position = Camera.main.WorldToScreenPoint(transform.position);
-        obj.SetActive(true);
-
+       
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.F));
 
         if (_itemData._isGet == true) { Debug.Log("이미 가지고 잇어"); yield break; }
         if (PlayerData.Instance.MONEY < _itemData._itemCost) { Debug.Log("돈이 부족해"); yield break; }
-
-        obj.SetActive(false);
 
         _itemData._isGet = true;
         PlayerData.Instance.MONEY -= _itemData._itemCost;

@@ -17,9 +17,7 @@ MonoBehaviour:
   _isGet: 0
   _itemCost: 0
   _itemTier: 5
-  _hp: 0
-  _atk: 0
-  _def: 0
-  _spd: 0
-  _blood: 0
+  _itemEffectList:
+  - _itemEffectType: 1
+    value: 1
   _itemType: 1

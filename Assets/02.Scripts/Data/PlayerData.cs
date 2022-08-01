@@ -132,5 +132,11 @@ public class PlayerData : MonoBehaviour
         SaveManager.Instance.DeleteData(_playerPrefsSpeedKey);
         SaveManager.Instance.DeleteData(_playerPrefsBloodKey);
     }
-
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            ResetData();
+        }
+    }
 }

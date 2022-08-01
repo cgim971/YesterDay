@@ -62,6 +62,8 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (GameManager.Instance.uiManager._usingInventory == true) return;
+
         if (_isDashing == true)
         {
             return;
@@ -96,6 +98,8 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        if (GameManager.Instance.uiManager._usingInventory == true) return; 
+
         Attacking();
 
         Jumping();
