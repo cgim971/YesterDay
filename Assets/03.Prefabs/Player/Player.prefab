@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 3111700041995238433}
   - component: {fileID: 3111700041995238446}
   - component: {fileID: 3111700041995238447}
+  - component: {fileID: 1454093197}
   m_Layer: 7
   m_Name: Player
   m_TagString: Player
@@ -80,7 +81,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1503354121
-  m_SortingLayer: 1
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: -1061779267, guid: e4632b65f5e1cf6429c028b6532ba9fa, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -229,6 +230,25 @@ MonoBehaviour:
   _ghostDelay: 0.03
   _ghost: {fileID: 7707611133508646505, guid: 051ef8a033d758c40b5c68816ab64ef4, type: 3}
   _isMakeGhost: 0
+--- !u!114 &1454093197
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3111700041995238438}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ddfcc2abcbeef84f88b990c86aaf709, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _lv: 0
+  _money: 0
+  _hp: 0
+  _attack: 0
+  _defense: 0
+  _speed: 0
+  _blood: 0
 --- !u!1 &3111700042302882385
 GameObject:
   m_ObjectHideFlags: 0

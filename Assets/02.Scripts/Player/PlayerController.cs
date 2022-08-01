@@ -14,11 +14,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float hp = 20f;
 
 
-
     [Header("Move Property")]
     private KeyCode _leftKey = KeyCode.LeftArrow;
     private KeyCode _rightKey = KeyCode.RightArrow;
-    [SerializeField] private float _speed =5;
+    [SerializeField] private float _speed = 5;
 
     [Header("Jump Property")]
     private KeyCode _jumpKey = KeyCode.C;
@@ -42,6 +41,7 @@ public class PlayerController : MonoBehaviour
     private KeyCode _attackKey = KeyCode.X;
     private PlayerAttack _playerAttack;
     private bool _isAttacking;
+
     public bool IsAttacking
     {
         get => _isAttacking;
@@ -183,7 +183,7 @@ public class PlayerController : MonoBehaviour
 
         _animator.SetTrigger("hit");
 
-        if(hp <= 0)
+        if (hp <= 0)
         {
             Debug.Log("Death");
         }
