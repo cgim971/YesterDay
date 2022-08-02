@@ -17,9 +17,6 @@ public class Shop : MonoBehaviour
     {
         _itemDatas = SaveManager.Instance.ITEMDATALISTS;
 
-
-        bool[] isSet = new bool[_itemDatas.Count];
-
         foreach (Item item in _items)
         {
             GetItem(item);

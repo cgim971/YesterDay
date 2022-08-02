@@ -49,11 +49,23 @@ public class Item : MonoBehaviour
     IEnumerator ItemInfo()
     {
         Debug.Log("F = 구매");
-       
+
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.F));
 
         if (_itemData._isGet == true) { Debug.Log("이미 가지고 잇어"); yield break; }
         if (PlayerData.Instance.MONEY < _itemData._itemCost) { Debug.Log("돈이 부족해"); yield break; }
+
+        _itemData._slotIndex = -1;
+        // 슬롯이 있는지 없으면 컷할겨
+        foreach (Slot slot in GameManager.Instance.uiManager.INVENTORYMANAGER.SLOTS())
+        {
+            if (slot.ITEMDATA == null)
+            {
+                _itemData._slotIndex = slot.SLOTINDEX;
+                break;
+            }
+        }
+        if (_itemData._slotIndex == -1) { Debug.Log("슬롯창이 부족함"); yield break; }
 
         _itemData._isGet = true;
         PlayerData.Instance.MONEY -= _itemData._itemCost;

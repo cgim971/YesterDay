@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _itemName: a
   _itemSprite: {fileID: 21300000, guid: 0d730806205bd594ab20e86c5ec552ce, type: 3}
-  _isGet: 0
-  _slotIndex: 4
+  _isGet: 1
+  _slotIndex: 1
   _itemCost: 0
   _itemTier: 5
   _itemEffectList:

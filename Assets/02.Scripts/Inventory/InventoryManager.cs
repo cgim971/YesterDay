@@ -23,6 +23,10 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
+    public List<Slot> SLOTS()
+    {
+        return _slots;
+    }
     public Slot SelectUsingSlot()
     {
         return _slots[_slotIndex];
