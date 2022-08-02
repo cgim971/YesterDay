@@ -15,6 +15,7 @@ MonoBehaviour:
   _itemName: df
   _itemSprite: {fileID: 21300000, guid: b0e712851069af84bb6d9379f404385f, type: 3}
   _isGet: 0
+  _slotIndex: 2
   _itemCost: 0
   _itemTier: 5
   _itemEffectList:

@@ -110,6 +110,8 @@ public class PlayerData : MonoBehaviour
         }
     }
 
+    
+
 
     public void LoadData()
     {

@@ -54,6 +54,7 @@ public class SaveManager : MonoBehaviour
         Vector2 data = JsonConvert.DeserializeObject<Vector2>(str);
         return data;
     }
+  
 
     public void SaveData(string str, int data)
     {

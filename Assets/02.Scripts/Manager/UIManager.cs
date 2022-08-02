@@ -8,6 +8,17 @@ public class UIManager : MonoBehaviour
     public bool _usingInventory;
     public GameObject _inventory;
 
+    private InventoryManager _inventoryManager;
+    public InventoryManager INVENTORYMANAGER
+    {
+        get => _inventoryManager;
+    }
+
+    private void Awake()
+    {
+        _inventoryManager = transform.Find("Inventory").GetComponent<InventoryManager>();
+    }
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.I))

@@ -6,6 +6,8 @@ public class InventoryManager : MonoBehaviour
 {
 
     [SerializeField] private List<Slot> _slots = new List<Slot>();
+    [SerializeField] private Transform _itemInfo;
+    public Transform ITEMINFO { get => _itemInfo; }
 
     [SerializeField] private GameObject _slot;
     [SerializeField] private Transform _slotParent;
@@ -21,12 +23,30 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
+    public Slot SelectUsingSlot()
+    {
+        return _slots[_slotIndex];
+    }
+
     private void Awake()
     {
         for (int i = 0; i < 9; i++)
         {
             GameObject newSlot = Instantiate(_slot, _slotParent);
             newSlot.GetComponent<Slot>().SLOTINDEX = i;
+
+            foreach (ItemData itemData in SaveManager.Instance.ITEMDATALISTS)
+            {
+                if (itemData._isGet == true)
+                {
+                    if (itemData._slotIndex == i)
+                    {
+                        newSlot.GetComponent<Slot>().ITEMDATA = itemData;
+                        break;
+                    }
+                }
+            }
+
             _slots.Add(newSlot.GetComponent<Slot>());
         }
     }

@@ -8,7 +8,10 @@ public class ItemData : ScriptableObject
     public string _itemName;
     public Sprite _itemSprite;
 
+
     public bool _isGet;
+    public int _slotIndex;
+
     public int _itemCost;
     public int _itemTier;
 
