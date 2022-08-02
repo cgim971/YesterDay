@@ -4,6 +4,7 @@ using UnityEngine;
 
 public abstract class Enemy : MonoBehaviour
 {
+    public GameObject FallObjects;
     private Rigidbody2D _rigid;
     protected Animator _animator;
 
@@ -37,7 +38,12 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] private float _attackDelay;
     Coroutine CoroutineAttack;
 
+    [Header("Boss Fire Property")]
+    public GameObject fire;
+    public float cooltime;
+    private float curtime;
 
+    
     private void Start()
     {
         _rigid = GetComponent<Rigidbody2D>();
@@ -47,6 +53,7 @@ public abstract class Enemy : MonoBehaviour
         _isMove = true;
 
         CoroutineMove = StartCoroutine(MonsterAI());
+        
     }
 
     private void Update()
@@ -69,11 +76,24 @@ public abstract class Enemy : MonoBehaviour
             {
                 float distance = _player.position.x - transform.position.x;
                 _moveDir = distance == 0 ? 0 : distance < 0 ? -1 : 1;
+                
+                if (Mathf.Abs(distance) > _attackRange + 4)
+                {
+                    FireAttack();
+                    FallObjects.gameObject.SetActive(true);
+                    
+                }
+                else
+                {
+                    FallObjects.gameObject.SetActive(false);
+                }
 
                 if (Mathf.Abs(distance) < _attackRange)
                 {
+                    
                     // attack
                     StartAttack();
+                    
                 }
                 else
                 {
@@ -82,7 +102,17 @@ public abstract class Enemy : MonoBehaviour
             }
         }
     }
-
+    
+    public void FireAttack()
+    {
+        if(curtime <= 0)
+        {
+            Instantiate(fire, _pos.position, transform.rotation);
+            curtime = cooltime;
+        }
+        curtime -= Time.deltaTime;
+    }
+    
     protected void StartAttack()
     {
         CoroutineAttack = StartCoroutine(Attacking());
