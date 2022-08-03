@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class Boss : Enemy
 {
     [Header("Attack Property")]
@@ -10,6 +11,10 @@ public class Boss : Enemy
 
     [SerializeField] private Transform _attackPos;
     [SerializeField] private Vector2 _attackSize = Vector2.zero;
+
+    public float bossHp = 100f;
+
+    
 
     protected override void Attack()
     {
@@ -45,12 +50,12 @@ public class Boss : Enemy
         {
             return;
         }
-
-        hp -= damage;
+        
+        bossHp -= damage;
         StopAttack();
-
+        
         _animator.SetTrigger("hit");
-
+        
         if (hp <= 0)
         {
             // death

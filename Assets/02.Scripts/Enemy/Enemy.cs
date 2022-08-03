@@ -44,6 +44,7 @@ public abstract class Enemy : MonoBehaviour
     private float curtime;
 
     
+    
     private void Start()
     {
         _rigid = GetComponent<Rigidbody2D>();
@@ -233,4 +234,6 @@ public abstract class Enemy : MonoBehaviour
 
         Destroy(this.gameObject);
     }
+
+    
 }
