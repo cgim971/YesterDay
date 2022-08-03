@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class Enemy : MonoBehaviour
 {
-    public GameObject FallObjects;
+    
     private Rigidbody2D _rigid;
     protected Animator _animator;
 
@@ -42,9 +42,9 @@ public abstract class Enemy : MonoBehaviour
     public GameObject fire;
     public float cooltime;
     private float curtime;
+    public GameObject FallObjects;
 
-    
-    
+
     private void Start()
     {
         _rigid = GetComponent<Rigidbody2D>();

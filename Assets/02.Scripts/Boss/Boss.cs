@@ -12,7 +12,7 @@ public class Boss : Enemy
     [SerializeField] private Transform _attackPos;
     [SerializeField] private Vector2 _attackSize = Vector2.zero;
 
-    public float bossHp = 100f;
+    
 
     
 
@@ -51,7 +51,7 @@ public class Boss : Enemy
             return;
         }
         
-        bossHp -= damage;
+        hp -= damage;
         StopAttack();
         
         _animator.SetTrigger("hit");
