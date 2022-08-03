@@ -262,7 +262,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1554630586
 GameObject:
@@ -307,7 +307,7 @@ Transform:
   m_Children:
   - {fileID: 2026233773}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2026233772
 GameObject:
@@ -322,7 +322,7 @@ GameObject:
   - component: {fileID: 2026233774}
   - component: {fileID: 2026233777}
   - component: {fileID: 2026233776}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Tilemap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
